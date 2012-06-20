@@ -35,13 +35,13 @@
     UIView *selectionView;
     UIImageView *checkmarkImageView;
     
-    id<AGIPCGridItemDelegate> delegate;
+    id<AGIPCGridItemDelegate> __unsafe_unretained delegate;
 }
 
 @property (assign) BOOL selected;
-@property (retain) ALAsset *asset;
+@property (strong) ALAsset *asset;
 
-@property (nonatomic, assign) id<AGIPCGridItemDelegate> delegate;
+@property (nonatomic, unsafe_unretained) id<AGIPCGridItemDelegate> delegate;
 
 - (id)initWithAsset:(ALAsset *)theAsset;
 - (id)initWithAsset:(ALAsset *)theAsset andDelegate:(id<AGIPCGridItemDelegate>)theDelegate;

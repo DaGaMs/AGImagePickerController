@@ -19,8 +19,8 @@
 
 @interface AGIPCAssetsController ()
 
-@property (nonatomic, retain) NSMutableArray *assets;
-@property (readonly) AGImagePickerController *imagePickerController;
+@property (nonatomic, strong) NSMutableArray *assets;
+@property (unsafe_unretained, readonly) AGImagePickerController *imagePickerController;
 
 @end
 
@@ -71,8 +71,7 @@
     {
         if (assetsGroup != theAssetsGroup)
         {
-            [assetsGroup release];
-            assetsGroup = [theAssetsGroup retain];
+            assetsGroup = theAssetsGroup;
             [assetsGroup setAssetsFilter:[ALAssetsFilter allPhotos]];
 
             [self reloadData];
@@ -86,7 +85,7 @@
     
     @synchronized (self)
     {
-        ret = [[assetsGroup retain] autorelease];
+        ret = assetsGroup;
     }
     
     return ret;
@@ -114,14 +113,6 @@
 
 #pragma mark - Object Lifecycle
 
-- (void)dealloc
-{
-    [tableView release];
-    [assetsGroup release];
-    [assets release];
-    
-    [super dealloc];
-}
 
 - (id)initWithAssetsGroup:(ALAssetsGroup *)theAssetsGroup
 {
@@ -175,7 +166,7 @@
     AGIPCGridCell *cell = (AGIPCGridCell *)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) 
     {		        
-        cell = [[[AGIPCGridCell alloc] initWithItems:[self itemsForRowAtIndexPath:indexPath] reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[AGIPCGridCell alloc] initWithItems:[self itemsForRowAtIndexPath:indexPath] reuseIdentifier:CellIdentifier];
     }	
 	else 
     {		
@@ -232,7 +223,6 @@
     UIBarButtonItem *doneButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneAction:)];
     doneButtonItem.enabled = NO;
 	self.navigationItem.rightBarButtonItem = doneButtonItem;
-    [doneButtonItem release];
     
     // Setup toolbar items
     [self setupToolbarItems];
@@ -274,11 +264,7 @@
         
         NSArray *toolbarItems = [[NSArray alloc] initWithObjects:selectAll, flexibleSpace, deselectAll, nil];
         self.toolbarItems = toolbarItems;
-        [toolbarItems release];
         
-        [selectAll release];
-        [flexibleSpace release];
-        [deselectAll release];
     }
 }
 
@@ -286,7 +272,7 @@
 {
     [self.assets removeAllObjects];
     
-    __block AGIPCAssetsController *blockSelf = self;
+    __unsafe_unretained AGIPCAssetsController *blockSelf = self;
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
         
@@ -305,7 +291,6 @@
                     gridItem.selected = YES;
                 }
                 [blockSelf.assets addObject:gridItem];
-                [gridItem release];
             }];
         }
         

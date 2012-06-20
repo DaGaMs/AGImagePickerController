@@ -27,7 +27,7 @@ typedef void (^AGIPCDidFail)(NSError *error);
 
 @interface AGImagePickerController : UINavigationController
 {
-    id delegate;
+    id __unsafe_unretained delegate;
     
     BOOL shouldChangeStatusBarStyle;
     BOOL shouldDisplaySelectionInformation;
@@ -48,13 +48,13 @@ typedef void (^AGIPCDidFail)(NSError *error);
 @property (assign) BOOL shouldShowSavedPhotosOnTop;
 @property NSUInteger maximumNumberOfPhotos;
 
-@property (nonatomic, assign) id delegate;
+@property (nonatomic, unsafe_unretained) id delegate;
 
 @property (copy) AGIPCDidFail didFailBlock;
 @property (copy) AGIPCDidFinish didFinishBlock;
 
-@property (retain) NSArray *toolbarItemsForSelection; 
-@property (retain) NSArray *selection;
+@property (strong) NSArray *toolbarItemsForSelection; 
+@property (strong) NSArray *selection;
 
 + (ALAssetsLibrary *)defaultAssetsLibrary;
 + (UIInterfaceOrientation)currentInterfaceOrientation;

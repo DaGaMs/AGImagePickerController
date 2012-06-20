@@ -32,8 +32,7 @@
                 [view removeFromSuperview];
             }
             
-            [items release];
-            items = [theItems retain];
+            items = theItems;
         }
     }
 }
@@ -44,7 +43,7 @@
     
     @synchronized (self)
     {
-        array = [[items retain] autorelease];
+        array = items;
     }
     
     return array;
@@ -52,12 +51,6 @@
 
 #pragma mark - Object Lifecycle
 
-- (void)dealloc
-{
-    [items release];
-    
-    [super dealloc];
-}
 
 - (id)initWithItems:(NSArray *)theItems reuseIdentifier:(NSString *)theIdentifier
 {
@@ -68,7 +61,6 @@
         
         UIView *emptyView = [[UIView alloc] initWithFrame:CGRectZero];
         self.backgroundView = emptyView;
-        [emptyView release];
 	}
 	
 	return self;
@@ -87,7 +79,6 @@
         UITapGestureRecognizer *selectionGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:gridItem action:@selector(tap)];
         selectionGestureRecognizer.numberOfTapsRequired = 1;
 		[gridItem addGestureRecognizer:selectionGestureRecognizer];
-        [selectionGestureRecognizer release];
         
 		[self addSubview:gridItem];
 		

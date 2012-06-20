@@ -20,7 +20,7 @@ typedef BOOL (^AGIPCAssetIsSelectedBlock)(NSUInteger index, ALAsset *asset);
     UIBarButtonItem *barButtonItem;
 }
 
-@property (retain) UIBarButtonItem *barButtonItem;
+@property (strong) UIBarButtonItem *barButtonItem;
 @property (copy) AGIPCAssetIsSelectedBlock assetIsSelectedBlock;
 
 - (id)initWithBarButtonItem:(UIBarButtonItem *)theBarButtonItem;

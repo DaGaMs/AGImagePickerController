@@ -16,7 +16,7 @@
 
 @interface AGIPCAlbumsController ()
 
-@property (nonatomic, readonly) NSMutableArray *assetsGroups;
+@property (unsafe_unretained, nonatomic, readonly) NSMutableArray *assetsGroups;
 
 @end
 
@@ -54,13 +54,6 @@
 
 #pragma mark - Object Lifecycle
 
-- (void)dealloc
-{
-    [tableView release];
-    [assetsGroups release];
-    
-    [super dealloc];
-}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -104,7 +97,6 @@
     // Navigation Bar Items
     UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelAction:)];
 	self.navigationItem.leftBarButtonItem = cancelButton;
-	[cancelButton release];
 }
 
 - (void)viewDidUnload
@@ -134,7 +126,7 @@
     
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
     }
     
     ALAssetsGroup *group = [self.assetsGroups objectAtIndex:indexPath.row];
@@ -157,7 +149,6 @@
     
 	AGIPCAssetsController *controller = [[AGIPCAssetsController alloc] initWithAssetsGroup:[self.assetsGroups objectAtIndex:indexPath.row]];
 	[self.navigationController pushViewController:controller animated:YES];
-	[controller release];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

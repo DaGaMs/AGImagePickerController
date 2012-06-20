@@ -87,16 +87,6 @@ static UIInterfaceOrientation currentInterfaceOrientation;
 
 #pragma mark - Object Lifecycle
 
-- (void)dealloc
-{
-    [toolbarItemsForSelection release];
-    [selection release];
-    
-    [didFailBlock release];
-    [didFinishBlock release];
-    
-    [super dealloc];
-}
 
 - (id)init
 {
@@ -160,7 +150,6 @@ static UIInterfaceOrientation currentInterfaceOrientation;
     }
     rootViewController.savedPhotosOnTop = shouldShowSavedPhotosOnTop;
     self.viewControllers = [NSArray arrayWithObject:rootViewController];
-    [rootViewController release];
 }
 
 #pragma mark - Private

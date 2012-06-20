@@ -13,9 +13,9 @@
 
 @interface AGIPCGridItem ()
 
-@property (nonatomic, retain) UIImageView *thumbnailImageView;
-@property (nonatomic, retain) UIView *selectionView;
-@property (nonatomic, retain) UIImageView *checkmarkImageView;
+@property (nonatomic, strong) UIImageView *thumbnailImageView;
+@property (nonatomic, strong) UIView *selectionView;
+@property (nonatomic, strong) UIImageView *checkmarkImageView;
 
 + (void)resetNumberOfSelections;
 
@@ -94,8 +94,7 @@ static NSUInteger numberOfSelectedGridItems = 0;
     {
         if (asset != theAsset)
         {
-            [asset release];
-            asset = [theAsset retain];
+            asset = theAsset;
             
             self.thumbnailImageView.image = [UIImage imageWithCGImage:asset.thumbnail];
         }
@@ -108,7 +107,7 @@ static NSUInteger numberOfSelectedGridItems = 0;
     
     @synchronized (self)
     {
-        ret = [[asset retain] autorelease];
+        ret = asset;
     }
     
     return ret;
@@ -116,15 +115,6 @@ static NSUInteger numberOfSelectedGridItems = 0;
 
 #pragma mark - Object Lifecycle
 
-- (void)dealloc
-{
-    [asset release];
-    [thumbnailImageView release];
-    [selectionView release];
-    [checkmarkImageView release];
-    
-    [super dealloc];
-}
 
 - (id)init
 {
@@ -149,18 +139,18 @@ static NSUInteger numberOfSelectedGridItems = 0;
         CGRect frame = [AGImagePickerController itemRect];
         CGRect checkmarkFrame = [AGImagePickerController checkmarkFrameUsingItemFrame:frame];
         
-        self.thumbnailImageView = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)] autorelease];
+        self.thumbnailImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
 		self.thumbnailImageView.contentMode = UIViewContentModeScaleToFill;
 		[self addSubview:self.thumbnailImageView];
         
-        self.selectionView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)] autorelease];
+        self.selectionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
         self.selectionView.backgroundColor = [UIColor whiteColor];
         self.selectionView.alpha = .5f;
         self.selectionView.hidden = !self.selected;
         [self addSubview:self.selectionView];
         
         // Position the checkmark image in the bottom right corner
-        self.checkmarkImageView = [[[UIImageView alloc] initWithFrame:checkmarkFrame] autorelease];
+        self.checkmarkImageView = [[UIImageView alloc] initWithFrame:checkmarkFrame];
         if (IS_IPAD())
             self.checkmarkImageView.image = [UIImage imageNamed:@"AGIPC-Checkmark-iPad"];
         else

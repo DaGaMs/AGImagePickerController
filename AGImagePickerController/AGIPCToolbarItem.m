@@ -19,13 +19,6 @@
 
 #pragma mark - Object Lifecycle
 
-- (void)dealloc
-{
-    [assetIsSelectedBlock release];
-    [barButtonItem release];
-    
-    [super dealloc];
-}
 
 #pragma mark - Designated Initializer
 
