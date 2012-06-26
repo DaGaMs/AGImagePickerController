@@ -363,8 +363,8 @@
 
 - (void)changeSelectionInformation
 {
-    if (self.imagePickerController.shouldDisplaySelectionInformation) {
-        self.navigationController.navigationBar.topItem.prompt = [NSString stringWithFormat:@"(%d/%d)", [AGIPCGridItem numberOfSelections], self.assets.count];
+    if (self.imagePickerController.shouldDisplaySelectionInformation && [AGIPCGridItem numberOfSelections] > 0) {
+      self.navigationController.navigationBar.topItem.title = [NSString stringWithFormat:@"%d selected", [AGIPCGridItem numberOfSelections]];
     }
 }
 
