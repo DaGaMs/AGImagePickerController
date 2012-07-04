@@ -363,9 +363,13 @@
 
 - (void)changeSelectionInformation
 {
-    if (self.imagePickerController.shouldDisplaySelectionInformation && [AGIPCGridItem numberOfSelections] > 0) {
-      self.navigationController.navigationBar.topItem.title = [NSString stringWithFormat:@"%d selected", [AGIPCGridItem numberOfSelections]];
-    }
+	if (self.imagePickerController.shouldDisplaySelectionInformation) {
+		if ([AGIPCGridItem numberOfSelections] > 0) {
+			self.navigationController.navigationBar.topItem.title = [NSString stringWithFormat:@"%d selected", [AGIPCGridItem numberOfSelections]];
+		} else {
+			self.navigationController.navigationBar.topItem.title = [self.assetsGroup valueForProperty:ALAssetsGroupPropertyName];
+		}
+	}
 }
 
 #pragma mark - AGGridItemDelegate Methods
