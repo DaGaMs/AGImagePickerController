@@ -272,31 +272,31 @@
 {
     [self.assets removeAllObjects];
     
-    __unsafe_unretained AGIPCAssetsController *blockSelf = self;
+    __weak AGIPCAssetsController *weakSelf = self;
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
         
         @autoreleasepool {
-            [blockSelf.assetsGroup enumerateAssetsUsingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop) {
+            [weakSelf.assetsGroup enumerateAssetsUsingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop) {
                 
                 if (result == nil) 
                 {
                     return;
                 }
                 
-                AGIPCGridItem *gridItem = [[AGIPCGridItem alloc] initWithAsset:result andDelegate:blockSelf];
-                if ( blockSelf.imagePickerController.selection != nil && 
-                    [blockSelf.imagePickerController.selection containsObject:result])
+                AGIPCGridItem *gridItem = [[AGIPCGridItem alloc] initWithAsset:result andDelegate:weakSelf];
+                if ( weakSelf.imagePickerController.selection != nil && 
+                    [weakSelf.imagePickerController.selection containsObject:result])
                 {
                     gridItem.selected = YES;
                 }
-                [blockSelf.assets addObject:gridItem];
+                [weakSelf.assets addObject:gridItem];
             }];
         }
         
         dispatch_async(dispatch_get_main_queue(), ^{
             
-            [blockSelf reloadData];
+            [weakSelf reloadData];
             
         });
         
