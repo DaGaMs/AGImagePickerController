@@ -20,6 +20,8 @@
     ALAssetsGroup *assetsGroup;
     
     NSMutableArray *assets;
+    
+    BOOL cancelJobs;
 }
 
 @property (strong) ALAssetsGroup *assetsGroup;

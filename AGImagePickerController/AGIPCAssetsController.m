@@ -207,6 +207,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    cancelJobs = NO;
     
     // Fullscreen
     if (self.imagePickerController.shouldChangeStatusBarStyle) {
@@ -231,6 +232,7 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
+    cancelJobs = YES;
     
     // Destroy Notifications
     [self destroyNotifications];
@@ -278,6 +280,8 @@
         
         @autoreleasepool {
             [weakSelf.assetsGroup enumerateAssetsUsingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop) {
+                if (cancelJobs)
+                    return;
                 
                 if (result == nil) 
                 {
@@ -293,9 +297,10 @@
                 [weakSelf.assets addObject:gridItem];
             }];
         }
+        if (cancelJobs)
+            return;
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            
             [weakSelf reloadData];
             
         });
