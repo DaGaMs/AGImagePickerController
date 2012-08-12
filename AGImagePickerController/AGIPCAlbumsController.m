@@ -96,7 +96,7 @@
     
     // Navigation Bar Items
     UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelAction:)];
-	self.navigationItem.leftBarButtonItem = cancelButton;
+	self.navigationItem.rightBarButtonItem = cancelButton;
 }
 
 - (void)viewDidUnload
